@@ -57,11 +57,8 @@ function initGame(name) {
     if (name1 === ""){
       name1 = name;
       userKey="one";
-      $('#name-input').hide();
-      $('#name-submit').hide();
-     
+      $('.player-inputs').hide();
      usersRef.child(userKey).set({state:'connected'}); 
- 
      gamesRef.child(userKey).set({name:name1,choice:'',wins:0,losses:0});
 
       $('.rock1').html('<i class="fas fa-hand-rock"></i>');
@@ -71,11 +68,8 @@ function initGame(name) {
   } else if (name2 === "") {
       name2 = name;
       userKey="two";
-      $('#name-input').hide();
-      $('#name-submit').hide();
-      
+      $('.player-inputs').hide();
       usersRef.child(userKey).set({state:'connected'}); 
-      
       gamesRef.child(userKey).update({name:name2,choice:'',wins:0,losses:0});
 
       $('.rock2').html('<i class="fas fa-hand-rock"></i>');
