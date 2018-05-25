@@ -22,6 +22,7 @@ var losses2 = 0;
 var choice1 = "";
 var choice2 = "";
 var userKey = "";
+var photo ="";
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
@@ -29,6 +30,14 @@ function onSignIn(googleUser) {
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  var name = profile.getName();
+  var ID = profile.getId();
+  var email = profile.getEmail();
+
+  photo = profile.getImageUrl();
+  initGame(name);
+  usersRef.child(userKey).update({ID:ID,photo:photo,email:email});
+
 }
 
 function signOut() {
@@ -41,75 +50,80 @@ function signOut() {
 function startGame() {
       $('#name-submit').on("click", function() {
         var name = $('#name-input').val().trim();    
-      if (name1 === ""){
-          name1 = name;
-          userKey="one";
-          $('#name-input').hide();
-          $('#name-submit').hide();
-         
-         usersRef.child(userKey).set({state:'connected'}); 
+      initGame(name);
+    });
+}
+
+function initGame(name) {    
+    if (name1 === ""){
+      name1 = name;
+      userKey="one";
+      $('#name-input').hide();
+      $('#name-submit').hide();
      
-         gamesRef.child(userKey).set({name:name1,choice:'',wins:0,losses:0});
+     usersRef.child(userKey).set({state:'connected'}); 
+ 
+     gamesRef.child(userKey).set({name:name1,choice:'',wins:0,losses:0});
 
-          $('.rock1').html('<i class="fas fa-hand-rock"></i>');
-          $('.paper1').html('<i class="fas fa-hand-paper"></i>');
-          $('.scissors1').html('<i class="fas fa-hand-scissors"></i>');
-          
-      } else if (name2 === "") {
-          name2 = name;
-          userKey="two";
-          $('#name-input').hide();
-          $('#name-submit').hide();
-          
-          usersRef.child(userKey).set({state:'connected'}); 
-          
-          gamesRef.child(userKey).update({name:name2,choice:'',wins:0,losses:0});
+      $('.rock1').html('<i class="fas fa-hand-rock"></i>');
+      $('.paper1').html('<i class="fas fa-hand-paper"></i>');
+      $('.scissors1').html('<i class="fas fa-hand-scissors"></i>');
+      
+  } else if (name2 === "") {
+      name2 = name;
+      userKey="two";
+      $('#name-input').hide();
+      $('#name-submit').hide();
+      
+      usersRef.child(userKey).set({state:'connected'}); 
+      
+      gamesRef.child(userKey).update({name:name2,choice:'',wins:0,losses:0});
 
-          $('.rock2').html('<i class="fas fa-hand-rock"></i>');
-          $('.paper2').html('<i class="fas fa-hand-paper"></i>');
-          $('.scissors2').html('<i class="fas fa-hand-scissors"></i>');
-      } 
-      // Remove player if player1 or player2  disconnect
-      usersRef.on('child_removed', function(childsnapshot) {
-          var Key = childsnapshot.key;
-          console.log("Disconnect : " + userKey);
-          // if palyer1 disconnect, reset the player2 score
-          if (Key === "one") {
-            gamesRef.child("two").update({choice:'',wins:0,losses:0});
-            name1 ="";
-            $('.name-one').empty();
-            $('.result-1').empty();
-          // if palyer2 disconnect, reset the player1 score
-          } else if (Key ==="two") {
-            gamesRef.child("one").update({choice:'',wins:0,losses:0});
-            name2 = "";
-            $('.name-two').empty();
-            $('.result-2').empty();
-          }
-          database.ref().update({
-            turn : 0
-          }); 
-          $('.whos-turn').empty();
-          $('.finalResult').empty();
-          $('.player-1-choice').empty();
-          $('.player-2-choice').empty();
-          $('.restart-button').text("Other player left - Click to Restart.")
-          $('.restart-button').append('<button class="btn btn-standard restart">Play Again</button>');
-          $('.restart').on("click", function(){
-            $('.restart-button').empty();
+      $('.rock2').html('<i class="fas fa-hand-rock"></i>');
+      $('.paper2').html('<i class="fas fa-hand-paper"></i>');
+      $('.scissors2').html('<i class="fas fa-hand-scissors"></i>');
+  } 
+  // Remove player if player1 or player2  disconnect
+  usersRef.on('child_removed', function(childsnapshot) {
+      var Key = childsnapshot.key;
+      console.log("Disconnect : " + userKey);
+      // if palyer1 disconnect, reset the player2 score
+      if (Key === "one") {
+        gamesRef.child("two").update({choice:'',wins:0,losses:0});
+        name1 ="";
+        $('.name-one').empty();
+        $('.result-1').empty();
+      // if palyer2 disconnect, reset the player1 score
+      } else if (Key ==="two") {
+        gamesRef.child("one").update({choice:'',wins:0,losses:0});
+        name2 = "";
+        $('.name-two').empty();
+        $('.result-2').empty();
+      }
+      database.ref().update({
+        turn : 0
+      }); 
+      $('.whos-turn').empty();
+      $('.finalResult').empty();
+      $('.player-1-choice').empty();
+      $('.player-2-choice').empty();
+      $('.restart-button').text("Other player left - Click to Restart.")
+      $('.restart-button').append('<button class="btn btn-standard restart">Play Again</button>');
+      $('.restart').on("click", function(){
+        $('.restart-button').empty();
 
-          });
       });
+  });
 
-        // if player1 & player2 is ready
-      if ((name1 !== "")&&(name2 !== "")) {
-          //userKey = "other";  // this game only allow 2 players, who join in after that we assign "other" to them
-          database.ref().update({turn : 1});
-       }
+    // if player1 & player2 is ready
+  if ((name1 !== "")&&(name2 !== "")) {
+      //userKey = "other";  // this game only allow 2 players, who join in after that we assign "other" to them
+      database.ref().update({turn : 1});
+   }
 
-        $('#name-input').val("");
-      });
-    }
+    $('#name-input').val("");
+  };
+
 
   function printResult() {
       $('.result-2').hide();
@@ -250,7 +264,7 @@ function startGame() {
         var comment = $('.chat-input').val().trim();
         console.log(comment)
         if(comment !== ""){
-          chatRef.push({user:userKey,message:comment});
+          chatRef.push({user:userKey,message:comment,imageurl:photo});
           $('.chat-input').val(""); // empty the input text field
         }
       });
@@ -258,13 +272,14 @@ function startGame() {
       chatRef.on("child_added",function(childSnapshot){
         var message = childSnapshot.val().message;
         var user = childSnapshot.val().user;
+        var photo = childSnapshot.val().imageurl;
         var d = new Date();
         var n = d.toUTCString();
         if (user == userKey) {
-          $('.chat-box').prepend('<ol class="discussion"> <li class="self"> <div class="avatar"></div> <div class="messages"> <p> ' + message+ '</p> <time>'+ n +'</time>');
+          $('.chat-box').prepend('<ol class="discussion"> <li class="self"> <div class="avatar"><img src="' + photo +'"/> </div> <div class="messages"> <p> ' + message+ '</p> <time>'+ n +'</time>');
         
         } else {
-          $('.chat-box').prepend('<ol class="discussion"> <li class="other"> <div class="avatar"></div> <div class="messages"> <p> ' + message+ '</p> <time>'+ n +'</time>');
+          $('.chat-box').prepend('<ol class="discussion"> <li class="other"> <div class="avatar"><img src="' + photo +'"/> </div> <div class="messages"> <p> ' + message+ '</p> <time>'+ n +'</time>');
         }
       });
     
