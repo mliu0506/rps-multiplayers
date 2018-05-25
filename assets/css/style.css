@@ -1,0 +1,157 @@
+body{
+    text-align: center;
+    background-image: url('../images/star.png');
+    background-color: rgba(210, 18, 67, 1); /* pink */
+	font-family: 'Anton', sans-serif; /* titles */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+
+}
+
+.container-head {
+    background-color: rgba(252, 176, 64, 1);  /* yellow */
+	padding: 0.6em;
+	position: relative;
+    top: 0.6em;
+}
+
+.col-title-pic {
+    width: 100%;
+    padding-right: 2em;
+}
+.title-pic {
+	width: 60px;
+    height: 60px;
+   
+}
+.col-title {
+    color: rgba(132, 11, 42, 1); /* egglant */
+
+   
+}
+.col-title h1 {
+    font-weight: 700;
+	font-family: 'Anton', sans-serif; /* titles */
+   
+}
+
+.btn {
+    background-color: rgba(252, 176, 64, 1);  /* yellow */
+}
+.container{
+ 
+    width:100%;
+    padding-left:20px;
+    padding-right:20px;
+}
+
+/* Header */
+.header{
+    margin: 20px 0;
+
+}
+#title-pic{
+    width: 100%;
+    max-width: 600px;
+}
+/* Text Display */
+.text-display{
+    margin: 20px 0;
+}
+
+/* Players */
+.players{
+    margin: 20px 0;
+}
+.player-1{
+    background-position: center;
+    background-size: cover;
+}
+.result{
+    border-radius: 3px;
+}
+.player-2{
+    background-position: center;
+    background-size: cover;
+    
+}
+.boxes{
+    height: 80vh;
+    border: black 1px solid;
+    float: left;
+    
+}
+.option1,
+.option2{
+    font-size: 50px;
+    margin: 10px;
+    color: rgba(252, 176, 64, 1);  /* yellow */
+}
+
+.player-1-choice,.player-2-choice {
+
+    font-size: 100px;
+    color: rgba(252, 176, 64, 1);  /* yellow */
+}
+
+.lastActionFont {
+    font-size:12px;
+    color:black;
+}
+
+/* Chat */
+.chat-box{
+    width: 100%;
+    height: 200px;
+    border: 1px black solid;
+    margin: 20px 0;
+    background-color: inherit;
+    border-radius: 5px;
+    overflow-y: scroll;
+    font-size: 18px;
+    height: 80vh;
+
+}
+.chat-input{
+    border-radius: 5px;
+    width: 90%;
+    background-color: white;
+    font-size: 18px;
+    
+}
+.chat-submit{
+    border-radius: 10px;
+    background-color: white;
+    height: 10px;
+    
+}
+
+/* Media Queries  */
+/* xs < 768 */ 
+    @media screen and (max-width: 767px) { 
+    body,.btn{ font-size: 0.8em; }
+    .col-title h1 { font-size: 2.4em; }
+    }
+
+  /* sm */ 
+  @media screen and (min-width: 768px) { 
+    body,.btn { font-size: 0.9em; } 
+    .col-title h1 { font-size: 2.6em; }
+  } 
+  
+  /* md */ 
+  @media screen and (min-width: 992px) { 
+    body,.btn, { font-size: 1.1em; } 
+    .col-title h1 { font-size: 2.8em; }
+
+  } 
+  
+  /* lg */ 
+  @media screen and (min-width: 1200px) { 
+    body,.btn, { font-size: 1.2em; }
+    .col-title h1 { font-size: 3em; }
+
+  }
+  

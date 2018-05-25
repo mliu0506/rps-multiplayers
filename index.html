@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="369092792103-ekret3hb9qh5jtrdp1s0a15ql067378n.apps.googleusercontent.com">
+    
+    <title>RPS Multiplayer</title>
+
+    <!--  Bootstrap 4 CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <!--Awesome Font  -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <!--Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Anton|Roboto+Mono" rel="stylesheet">
+
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Chat Room CSS -->
+    <link rel="stylesheet" href="assets/css/chatroom.css">
+
+
+</head>
+<body>
+
+    <div class="container container-head">
+        <div class="row row-head">
+
+            <div class="col-12 col-title justify-content-center align-items-center">
+                <h1>Rock Paper Scissors</h1>
+            </div><!-- / col-title -->
+        
+        </div><!-- /row-head -->
+    </div><!-- /div container-head -->
+ 
+
+    <div class="text-display row">
+        <div class="container">
+            <div class="player-inputs">
+                <input type="text" id="name-input" placeholder="Name">
+                <button id="name-submit" class="btn btn-standard">Submit</button>
+            </div>
+            <BR>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div class="whos-turn"></div>
+        </div>
+    </div>
+
+    <div class="players row">
+        <div class="container">
+            <div class="boxes player-1 col-4">
+                <div class="name name-one">Waiting for Player 1</div>
+                <span class="option1 rock1 rock" data-id='rock'></span>
+                <span class="option1 paper1 paper" data-id='paper'></span>
+                <span class="option1 scissors1 scissors" data-id='scissors'></span>
+                <div class="result-1"></div>
+                <div class="player-1-choice"></div>
+            </div>
+            <div class="boxes result col-4">
+                <div class="finalResult">
+
+                </div>
+                <div class="restart-button">
+
+                </div>
+
+            </div>
+            <div class="boxes player-2 col-4">
+                <div class="name name-two">Waiting for Player 2</div>
+                <span class="option2 rock2 rock" data-id='rock'></span>
+                <span class="option2 paper2 paper" data-id='paper'></span>
+                <span class="option2 scissors2 scissors" data-id='scissors'></span>
+                <div class="result-2"></div>
+                <div class="player-2-choice"></div>
+            </div>
+        </div>
+    </div>
+
+    <section class="row chat">
+        <div class="container">
+            <div>
+                <div class="chat-box" type="text" readonly></div>
+                <input class="chat-input" type="text" placeholder="Message" >
+                <button id="chat-submit" class="btn btn-standard" >Submit</button>
+                <button id="clear-all" class="btn btn-standard">Clear Game</button>
+                <a href="#" onclick="signOut();">Sign out</a>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+<!--  Bootstrap 4 JavaScript -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- Firebase Reference -->
+<script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
+
+<!-- AJAX Google jQuery CDN  -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Google Login-->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+
+<!-- This program java script-->
+<script src="assets/javascript/app.js"></script>
+
+</body>
+</html>
