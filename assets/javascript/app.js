@@ -33,11 +33,10 @@ function onSignIn(googleUser) {
   var name = profile.getName();
   var ID = profile.getId();
   var email = profile.getEmail();
-
+  //store the photo URL
   photo = profile.getImageUrl();
   initGame(name);
   usersRef.child(userKey).update({ID:ID,photo:photo,email:email});
-
 }
 
 function signOut() {
@@ -111,7 +110,6 @@ function initGame(name) {
       $('.restart-button').append('<button class="btn btn-standard restart">Play Again</button>');
       $('.restart').on("click", function(){
         $('.restart-button').empty();
-
       });
   });
 
@@ -284,6 +282,7 @@ function initGame(name) {
       });
     
       $('#clear-all').on("click",function(){
+        signOut();
         database.ref().set({});
         location.reload();
       });
@@ -295,4 +294,5 @@ function initGame(name) {
   printResult();
   chatRoom();
   disconnect();
+  signOut();
 })
