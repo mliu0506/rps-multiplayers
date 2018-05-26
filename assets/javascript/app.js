@@ -23,41 +23,47 @@ var choice1 = "";
 var choice2 = "";
 var userKey = "";
 var photo ="";
+var googleLogin = false;
 
+//Goggle Sign In function
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   var name = profile.getName();
   var ID = profile.getId();
   var email = profile.getEmail();
   //store the photo URL
   photo = profile.getImageUrl();
+  googleLogin = true;
   initGame(name);
   usersRef.child(userKey).update({ID:ID,photo:photo,email:email});
 }
-
+//Google Sign out function
 function signOut() {
-  $("#signout").on("click", function() {
-    var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-          location.reload();
-        });
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
   });
 }
-
+//Game start 
 function startGame() {
-      $('#name-submit').on("click", function() {
-        var name = $('#name-input').val().trim();    
+    //User can select manual login or Google login
+    // The below function shows the manual login by user name
+    $('#name-submit').on("click", function() {
+      var name = $('#name-input').val().trim();    
       initGame(name);
     });
+    //Log out function
+    $("#signout").on("click", function() {
+      if (googleLogin === true) { 
+        signOut(); // Google logout
+      }
+      location.reload(); // when page re-load it will trigger Firebase Disconnect
+    });
 }
-
+// initial the game with assign player1 & player2
 function initGame(name) {    
-    if (name1 === ""){
+    if (name1 === "") {
+      if (name !=="" || name==null){
       name1 = name;
       userKey="one";
       $('.player-inputs').hide();
@@ -67,8 +73,9 @@ function initGame(name) {
       $('.rock1').html('<i class="fas fa-hand-rock"></i>');
       $('.paper1').html('<i class="fas fa-hand-paper"></i>');
       $('.scissors1').html('<i class="fas fa-hand-scissors"></i>');
-      
+    }
   } else if (name2 === "") {
+    if (name !=="" || name==null){
       name2 = name;
       userKey="two";
       $('.player-inputs').hide();
@@ -78,44 +85,14 @@ function initGame(name) {
       $('.rock2').html('<i class="fas fa-hand-rock"></i>');
       $('.paper2').html('<i class="fas fa-hand-paper"></i>');
       $('.scissors2').html('<i class="fas fa-hand-scissors"></i>');
+    }
   } 
-  // Remove player if player1 or player2  disconnect
-  usersRef.on('child_removed', function(childsnapshot) {
-      var Key = childsnapshot.key;
-      console.log("Disconnect : " + userKey);
-      // if palyer1 disconnect, reset the player2 score
-      if (Key === "one") {
-        gamesRef.child("two").update({choice:'',wins:0,losses:0});
-        name1 ="";
-        $('.name-one').empty();
-        $('.result-1').empty();
-      // if palyer2 disconnect, reset the player1 score
-      } else if (Key ==="two") {
-        gamesRef.child("one").update({choice:'',wins:0,losses:0});
-        name2 = "";
-        $('.name-two').empty();
-        $('.result-2').empty();
-      }
-      database.ref().update({
-        turn : 0
-      }); 
-      $('.whos-turn').empty();
-      $('.finalResult').empty();
-      $('.player-1-choice').empty();
-      $('.player-2-choice').empty();
-      $('.restart-button').text("Other player left - Click to Restart.")
-      $('.restart-button').append('<button class="btn btn-standard restart">Play Again</button>');
-      $('.restart').on("click", function(){
-        $('.restart-button').empty();
-      });
-  });
-
+  
     // if player1 & player2 is ready
   if ((name1 !== "")&&(name2 !== "")) {
       //userKey = "other";  // this game only allow 2 players, who join in after that we assign "other" to them
       database.ref().update({turn : 1});
    }
-
     $('#name-input').val("");
   };
 
@@ -130,8 +107,7 @@ function initGame(name) {
           wins1 = snapshot.val().players.one.wins;
           losses1 = snapshot.val().players.one.losses;
           $('.name-one').text(name1);
-          $('.result-1').text("Wins: " + wins1 + " || Losses: " + losses1);
-
+          $('.result-1').text("Wins: " + wins1 + " || Losses: " + losses1)
         }
         if (snapshot.child('players').child('two').exists()){
           $('.result-2').show();
@@ -141,16 +117,12 @@ function initGame(name) {
           losses2 = snapshot.val().players.two.losses;
           $('.name-two').text(name2);
           $('.result-2').text("Wins: " + wins2 + " || Losses: " + losses2);
-
-        
-          } 
-
-          if (snapshot.child('players').child('one').exists() && snapshot.child('players').child('two').exists()){
+        } 
+        // Matched with Player1 & Player 2
+        if (snapshot.child('players').child('one').exists() && snapshot.child('players').child('two').exists()){
             var turn = snapshot.val().turn; 
             $('.whos-turn').text('Player ' + turn + "'s turn!");
             $('.player-inputs').hide();
-            //userKey = "other";  // this game only allow 2 players, who join in after that we assign "other" to them            
-  
           console.log("turn: " + turn);
 
           if(turn === 1){
@@ -160,12 +132,9 @@ function initGame(name) {
               choice1 = $(this).attr('data-id');   
               console.log(choice1); 
               gamesRef.child("one").update({choice:choice1});
-
-              database.ref().update({
-                turn : 2
-              });
+              database.ref().update({turn : 2});
               $('.option1').off("click");  
-            })
+            });
           }
 
           if(turn === 2){
@@ -176,27 +145,51 @@ function initGame(name) {
               console.log(choice2);
               
               gamesRef.child("two").update({choice:choice2});
-              database.ref().update({
-                turn : 1
-              });    
+              database.ref().update({turn : 1});    
               $('.option2').off("click");              
-            })
+            });
           }
 
           choice1 = snapshot.val().players.one.choice
           choice2 = snapshot.val().players.two.choice
 
           if(snapshot.val().players.one.choice !== "" && snapshot.val().players.two.choice !== ""){
-           
            $(".player-1-choice").html("<i class='fas fa-hand-" + choice1 + "'></i><BR><p class='lastActionFont'>Last Action</p>"); 
            $(".player-2-choice").html("<i class='fas fa-hand-" + choice2 + "'></i><BR><p class='lastActionFont'>Last Action</p>"); 
            compareResult();      
           }
-        }  
-    }, function(errorObject) {
-        console.log("Errors handled: " + errorObject.code);
+        }
+      });  
+      // Remove player if player1 or player2  disconnect
+      usersRef.on('child_removed', function(childsnapshot) {
+            var Key = childsnapshot.key;
+            console.log("Disconnect : " + userKey);
+            // if palyer1 disconnect, reset the player2 score
+            if ((Key === "one") && (userKey !=="")){
+                gamesRef.child("two").update({choice:'',wins:0,losses:0});
+                name1 ="";
+                $('.name-one').empty();
+                $('.result-1').empty();
+                reset();    
+            
+            // if palyer2 disconnect, reset the player1 score
+            } else if ((Key ==="two") && (userKey !=="")) {
+              gamesRef.child("one").update({choice:'',wins:0,losses:0});
+              name2 = "";
+              $('.name-two').empty();
+              $('.result-2').empty();
+              reset();
+            // clear the display for the other users (watching the game only)
+            }  else {  
+              $('.whos-turn').empty();
+              $('.finalResult').empty();
+              $('.player-1-choice').empty();
+              $('.player-2-choice').empty();
+            } 
       });
     }
+    
+  
 
     function compareResult() {
       // Tie 
@@ -249,11 +242,26 @@ function initGame(name) {
         usersRef.child(userKey).onDisconnect().remove(); 
         gamesRef.child(userKey).onDisconnect().remove();
       }    
-        
-
       });
-
     }
+
+    function reset() {
+      database.ref().update({
+        turn : 0
+      }); 
+      $('.whos-turn').empty();
+      $('.finalResult').empty();
+      $('.player-1-choice').empty();
+      $('.player-2-choice').empty();
+      $('.restart-button').text("Other player left - Click to Restart.")
+      $('.restart-button').append('<button class="btn btn-standard restart">Play Again</button>');
+        // restart the game if other player left
+        $('.restart').on("click", function(){
+            $('.restart-button').empty();
+        });
+    }
+
+
     function chatRoom() {
       $('#chat-submit').on("click",function(){
         var comment = $('.chat-input').val().trim();

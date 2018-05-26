@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Google Login meta-->
     <meta name="google-signin-client_id" content="369092792103-ekret3hb9qh5jtrdp1s0a15ql067378n.apps.googleusercontent.com">
     
     <title>RPS Multiplayer</title>
@@ -36,10 +37,14 @@
   <ul class="sidebar-nav">
     <a id="menu-close" href="#" class="btn btn-light btn-sm float-right toggle" hidden><i class="fa fa-times"></i></a>
     <li class="sidebar-brand">
-      <a href="#login" onclick="$('#menu-close').click();">RPS Game Room</a>
+    <a href="#login" onclick="$('#menu-close').click();">RPS Game Room</a>
+      
     </li>
     <li>
-      <a href="#login" onclick="$('#menu-close').click();">User Login</a>
+    <a href="#login" onclick="$('#menu-close').click();">User Login</a>
+          </li>
+    <li>
+      <a href="#login" onclick="$('#menu-close').click();">Game Room</a>
     </li>
     <li>
       <a href="#chatroom" onclick="$('#menu-close').click();">Chat Room</a>
@@ -125,6 +130,9 @@
 
 <!-- AJAX Google jQuery CDN  -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+ <!-- jQuery -->
+ <script src="https://code.jquery.com/jquery.js"></script>
 
 <!-- Google Login-->
 <script src="https://apis.google.com/js/platform.js" async defer></script>
