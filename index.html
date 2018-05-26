@@ -20,6 +20,9 @@
     <!-- Style CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
+    <!-- Siderbar CSS -->
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+
     <!-- Chat Room CSS -->
     <link rel="stylesheet" href="assets/css/chatroom.css">
 
@@ -27,7 +30,28 @@
 </head>
 <body>
 
-    <div class="container container-head">
+<!-- Navigation -->
+<a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars" data-toggle="tooltip" title="MENU"></i></a>
+<nav id="sidebar-wrapper">
+  <ul class="sidebar-nav">
+    <a id="menu-close" href="#" class="btn btn-light btn-sm float-right toggle" hidden><i class="fa fa-times"></i></a>
+    <li class="sidebar-brand">
+      <a href="#login" onclick="$('#menu-close').click();">RPS Game Room</a>
+    </li>
+    <li>
+      <a href="#login" onclick="$('#menu-close').click();">User Login</a>
+    </li>
+    <li>
+      <a href="#chatroom" onclick="$('#menu-close').click();">Chat Room</a>
+    </li>
+    <li>
+      <a id="signout" href="#" onclick="$('#menu-close').click();">User Logout</a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Header of the login -->
+    <div id="login" class="container container-head">
         <div class="row row-head">
 
             <div class="col-12 col-title justify-content-center align-items-center">
@@ -37,19 +61,18 @@
         </div><!-- /row-head -->
     </div><!-- /div container-head -->
  
-
+<!-- Login -->
     <div class="text-display row">
         <div class="container">
             <div class="col-12 player-inputs justify-content-center align-items-center">
+                <div class="g-signin2 justify-content-center" data-onsuccess="onSignIn">- OR -</div>
                 <input type="text" id="name-input" placeholder="Name">
                 <button id="name-submit" class="btn btn-standard">Submit</button>
-                <p>- OR -</p>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
             </div>
             <div class="whos-turn"></div>
         </div>
     </div>
-
+<!-- Game Room -->
     <div class="players row">
         <div class="container">
             <div class="boxes player-1 col-4">
@@ -79,8 +102,8 @@
             </div>
         </div>
     </div>
-
-    <section class="row chat">
+<!-- chat Room -->
+    <section id="chatroom" class="row chat">
         <div class="container">
             <div>
                 <div class="chat-box" type="text" readonly></div>
@@ -90,10 +113,6 @@
             </div>
         </div>
     </section>
-
-
-
-
 
 
 <!--  Bootstrap 4 JavaScript -->
@@ -113,6 +132,8 @@
 
 <!-- This program java script-->
 <script src="assets/javascript/app.js"></script>
+<!-- Side Bar script-->
+<script src="assets/javascript/sidebar.js"></script>
 
 </body>
 </html>
