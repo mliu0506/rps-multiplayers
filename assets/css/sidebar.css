@@ -41,7 +41,7 @@ button {
   height: 100%;
   margin-right: -250px;
   overflow-y: auto;
-  background: rgba(248, 12, 71);
+  background: rgb(248, 12, 71);
   /*opacity: 0.8;
   filter: alpha(opacity=80);*/
   -webkit-transition: all 0.4s ease 0s;
