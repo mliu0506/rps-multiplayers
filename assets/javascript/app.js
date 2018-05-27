@@ -42,7 +42,7 @@ function startGame() {
 // initial the game with assign player1 & player2
 function initGame(name) {    
     if (name1 === "") {
-      if (name !=="" || name==null){
+      if (name !=="" || name != null){
       name1 = name;
       userKey="one";
       $('.player-inputs').hide();
@@ -54,7 +54,7 @@ function initGame(name) {
       $('.scissors1').html('<i class="fas fa-hand-scissors"></i>');
     }
   } else if (name2 === "") {
-    if (name !=="" || name==null){
+    if (name !=="" || name !=null){
       name2 = name;
       userKey="two";
       $('.player-inputs').hide();
