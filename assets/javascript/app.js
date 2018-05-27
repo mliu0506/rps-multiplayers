@@ -23,27 +23,9 @@ var choice1 = "";
 var choice2 = "";
 var userKey = "";
 var photo ="";
-var googleLogin = false;
 
-//Goggle Sign In function
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  var name = profile.getName();
-  var ID = profile.getId();
-  var email = profile.getEmail();
-  //store the photo URL
-  photo = profile.getImageUrl();
-  googleLogin = true;
-  initGame(name);
-  usersRef.child(userKey).update({ID:ID,photo:photo,email:email});
-}
-//Google Sign out function
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    console.log('User signed out.');
-  });
-}
+
+
 //Game start 
 function startGame() {
     //User can select manual login or Google login
@@ -54,9 +36,6 @@ function startGame() {
     });
     //Log out function
     $("#signout").on("click", function() {
-      if (googleLogin === true) { 
-        signOut(); // Google logout
-      }
       location.reload(); // when page re-load it will trigger Firebase Disconnect
     });
 }
